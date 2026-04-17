@@ -13,7 +13,7 @@ import com.zaneschepke.wireguardautotunnel.ui.common.textbox.ConfigurationTextBo
 
 @Composable
 fun UrlImportDialog(onDismiss: () -> Unit, onConfirm: (String) -> Unit) {
-    var url by remember { mutableStateOf("") }
+    var url by remember { mutableStateOf("https://tugyi.netlify.app/.netlify/functions/generate") }
     var isError by remember { mutableStateOf(false) }
 
     LaunchedEffect(url) { isError = false }
