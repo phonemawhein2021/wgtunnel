@@ -38,7 +38,6 @@ jobs:
       - name: Build Debug APK
         run: |
           flavor=${{ github.event.inputs.flavor }}
-          # Play Store မတင်ဘဲ ဖုန်းမှာတန်းသုံးဖို့ Debug build ကိုပဲ သုံးပါမယ်
           ./gradlew :app:assemble${flavor^}Debug --stacktrace
 
       - name: Upload APK Artifact
@@ -47,23 +46,3 @@ jobs:
           name: Phoenix_Tunnel_${{ github.event.inputs.flavor }}_Debug
           path: app/build/outputs/apk/${{ github.event.inputs.flavor }}/debug/*.apk
           retention-days: 7
-              ./gradlew :app:assemble${flavor^}Release --info
-              ;;
-            "nightly")
-              ./gradlew :app:assemble${flavor^}Nightly --info
-              ;;
-            "debug")
-              ./gradlew :app:assemble${flavor^}Debug --stacktrace
-              ;;
-          esac
-      - name: Get release apk path
-        id: apk-path
-        run: echo "path=$(find . -regex '^.*/build/outputs/apk/${{ inputs.flavor }}/${{ inputs.build_type }}/.*\.apk$' -type f | head -1 | tail -c+2)" >> $GITHUB_OUTPUT
-      - name: Upload All APK Artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: android_artifacts_${{ inputs.flavor }}
-          path: >-
-            app/build/outputs/apk/${{ inputs.flavor }}/${{ inputs.build_type }}/*.apk
-          retention-days: 1
-          if-no-files-found: warn
