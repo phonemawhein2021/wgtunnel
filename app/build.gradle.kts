@@ -238,7 +238,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.manifest)
 
-    debugImplementation(libs.leakcanary.android)
+    // debugImplementation(libs.leakcanary.android)
 
     // Room database backup
     implementation(libs.roomdatabasebackup) {
