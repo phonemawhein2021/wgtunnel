@@ -10,10 +10,14 @@ import androidx.compose.material.icons.outlined.CopyAll
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -378,29 +382,35 @@ fun currentRouteAsNavbarState(
                 }
                 Tunnels -> {
                     NavbarState(
-                        topTitle = context.getString(R.string.tunnels),
+                        topLeading = {
+                            if (globalState.selectedTunnelCount == 0) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Text(
+                                        text = "ဖီးနစ်",
+                                        style = MaterialTheme.typography.titleLarge,
+                                    )
+                                    IconButton(onClick = { navController.push(Sort) }) {
+                                        Icon(
+                                            Icons.AutoMirrored.Rounded.Sort,
+                                            stringResource(R.string.sort),
+                                        )
+                                    }
+                                }
+                            }
+                        },
+                        topTitle = if (globalState.selectedTunnelCount == 0) null
+                                   else context.getString(R.string.tunnels),
                         topTrailing = {
                             when (globalState.selectedTunnelCount) {
                                 0 ->
-                                    Row {
-                                        IconButton(onClick = { navController.push(Sort) }) {
-                                            Icon(
-                                                Icons.AutoMirrored.Rounded.Sort,
-                                                stringResource(R.string.sort),
+                                    TextButton(
+                                        onClick = {
+                                            sharedViewModel.postSideEffect(
+                                                LocalSideEffect.Sheet.ImportTunnels
                                             )
                                         }
-                                        IconButton(
-                                            onClick = {
-                                                sharedViewModel.postSideEffect(
-                                                    LocalSideEffect.Sheet.ImportTunnels
-                                                )
-                                            }
-                                        ) {
-                                            Icon(
-                                                Icons.Rounded.Add,
-                                                stringResource(R.string.add_tunnel),
-                                            )
-                                        }
+                                    ) {
+                                        Text("Generate")
                                     }
                                 else ->
                                     Row {
@@ -417,8 +427,7 @@ fun currentRouteAsNavbarState(
                                             )
                                         }
                                         // due to permissions, and SAF issues on TV, not support
-                                        // less than Android
-                                        // 10
+                                        // less than Android 10
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                                             IconButton(
                                                 onClick = {
@@ -433,7 +442,6 @@ fun currentRouteAsNavbarState(
                                                 )
                                             }
                                         }
-
                                         if (globalState.selectedTunnelCount == 1) {
                                             IconButton(
                                                 onClick = {
