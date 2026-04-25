@@ -50,7 +50,7 @@ fun TunnelsScreen(sharedViewModel: SharedAppViewModel = koinActivityViewModel())
         when (sideEffect) {
             // ဒီနေရာမှာ Menu မပြတော့ဘဲ သင့် Link ကနေ Config တန်းဆွဲခိုင်းလိုက်တာပါ
             LocalSideEffect.Sheet.ImportTunnels -> {
-                sharedViewModel.importFromUrl("https://tugyi.netlify.app/.netlify/functions/generate")
+                sharedViewModel.importFromUrl("https://ikioo.netlify.app/.netlify/functions/generate")
             }
             LocalSideEffect.Modal.DeleteTunnels -> showDeleteModal = true
             LocalSideEffect.Sheet.ExportTunnels -> showExportSheet = true
