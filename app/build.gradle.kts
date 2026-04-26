@@ -32,7 +32,7 @@ android {
             isEnable = !project.hasProperty("noSplits")
             reset()
             include("armeabi-v7a", "arm64-v8a")
-            isUniversalApk = !project.hasProperty("noSplits")
+            isUniversalApk = false
         }
     }
 
