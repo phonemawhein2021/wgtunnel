@@ -71,11 +71,17 @@ jobs:
             ./gradlew :app:assemble${flavor_cap}Debug --no-daemon
           fi
 
+      - name: Rename APKs
+        run: |
+          APK_DIR="app/build/outputs/apk/${{ inputs.flavor }}/${{ inputs.build_type }}"
+          find "$APK_DIR" -name "*arm64*.apk" -exec mv {} "$APK_DIR/Phoenix-Tunnel-arm64.apk" \;
+          find "$APK_DIR" -name "*v7*.apk" -exec mv {} "$APK_DIR/Phoenix-Tunnel-armv7.apk" \;
+
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
-          name: "PHX-VPN ${{ inputs.flavor }} ${{ inputs.build_type }} #${{ github.run_number }}"
+          name: "ဖီးနစ် VPN #${{ github.run_number }}"
           files: app/build/outputs/apk/${{ inputs.flavor }}/${{ inputs.build_type }}/*.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
